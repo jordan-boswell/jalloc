@@ -11,17 +11,17 @@ comparible to most popular allocators.  Memory usage is reasonable, as the
 design uses techniques to reduce internal and external memory fragmentation.
 The three main functions provided are the following:
 
-void ja_init(void)
-This must be called once and only once before using mm_allocate.
+* void ja_init(void)  
+This must be called once and only once before using ja_allocate.
 
-int ja_allocate(void **p, int size)
-"p" must be a pointer to the pointer that will point to the allocated memory
-block.  "size" must be a positive integer less than 2^32 that indicates the 
+* int ja_allocate(void **p, int size)  
+p must be a pointer to the pointer that will point to the allocated memory
+block.  size must be a positive integer less than 2^32 that indicates the 
 number of bytes you wish to have allocated.  A return value of 0 indicates 
 success, while a positive integer indicates a failure.
 
-int ja_free(void *p)
-"p" must be a pointer pointing to a block that was allocated with mm_allocate,
+* int ja_free(void *p)  
+p must be a pointer pointing to a block that was allocated with ja_allocate,
 and which hasn't yet been freed.  A return value of 0 indicates success, while a
 positive integer indicates a failure.
 
@@ -68,21 +68,21 @@ it exceeds a certain size, a call to brk is made to reduce the size of the heap.
 
 ## Chunk Layout
 
-*Note:* For small/medium blocks, the s in s-bit stands for self and is 1 if the
+**Note:** For small/medium blocks, the s in s-bit stands for self and is 1 if the
 block is allocated and 0 if it is free.  The p in p-bit stands for previous, and
 is 1 if the previous(adjacent in memory) block is allocated and 0 if it is free.
 
-```SMALL
-
+### SMALL
+```
 Chunk Start---(3)   Capacity/C(0 if allocated)/S/P
 Block Start-|-(8)   Next Ptr
 Capacity----| (8)   Prev Ptr
             |-(Capacity-16)
               (0-7) Padding
               (3)   Capacity/C(unused)/S/P(unused)
-
-MEDIUM
-
+```
+### MEDIUM
+```
 Chunk Start---(3)   Capacity/C(0 if allocated;otherwise color)/S/P
 Block Start-|-(8)   Parent Ptr
 Capacity----| (8)   Left Child Ptr
@@ -92,11 +92,12 @@ Capacity----| (8)   Left Child Ptr
             |-(Capacity-40)
               (0-7) Padding
               (3)   Capacity/C(unused)/S/P(unused)
-
-LARGE
-
+```
+### LARGE
+```
 Chunk Start   (0-7) Padding
               (4)   Capacity
               (3)   Padding Amount/C(1)/S(unused)/P(unused)
 Block Start   (Capacity)
-              (?)   Padding to align chunk size along page size```
+              (?)   Padding to align chunk size along page size
+```
