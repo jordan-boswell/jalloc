@@ -68,11 +68,11 @@ it exceeds a certain size, a call to brk is made to reduce the size of the heap.
 
 ## Chunk Layout
 
-Note- For small/medium blocks, the s in s-bit stands for self and is 1 if the
+*Note:* For small/medium blocks, the s in s-bit stands for self and is 1 if the
 block is allocated and 0 if it is free.  The p in p-bit stands for previous, and
 is 1 if the previous(adjacent in memory) block is allocated and 0 if it is free.
 
-SMALL
+```SMALL
 
 Chunk Start---(3)   Capacity/C(0 if allocated)/S/P
 Block Start-|-(8)   Next Ptr
@@ -99,4 +99,4 @@ Chunk Start   (0-7) Padding
               (4)   Capacity
               (3)   Padding Amount/C(1)/S(unused)/P(unused)
 Block Start   (Capacity)
-              (?)   Padding to align chunk size along page size
+              (?)   Padding to align chunk size along page size```
