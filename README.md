@@ -83,7 +83,7 @@ Capacity----| (8)   Prev Ptr
 ```
 ### MEDIUM
 ```
-Chunk Start---(3)   Capacity/C(0 if allocated;otherwise color)/S/P
+Chunk Start---(3)   Capacity/C(0 if allocated; otherwise color)/S/P
 Block Start-|-(8)   Parent Ptr
 Capacity----| (8)   Left Child Ptr
             | (8)   Right Child Ptr
